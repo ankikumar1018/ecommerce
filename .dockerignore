@@ -35,4 +35,4 @@ build
 tmp
 
 # ruff cache
-.roff_cache/
+.ruff_cache/

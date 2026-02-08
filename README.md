@@ -52,17 +52,30 @@ High-level components:
 - Redis — caching and optional session store.
 - React SPA — user-facing frontend served via Nginx in Docker.
 
-Mermaid diagram (high level)
+Mermaid architecture diagram
 
 ```mermaid
 flowchart LR
-  Browser -->|HTTP| NginxFrontend[Frontend (Nginx)]
-  Browser -->|REST/GraphQL| Gunicorn[API (Gunicorn / Django)]
-  Gunicorn --> Postgres[(Postgres)]
-  Gunicorn --> Redis[(Redis Cache)]
-  Gunicorn --> RabbitMQ[(RabbitMQ)]
-  RabbitMQ --> Celery[Celery Worker]
-  Celery -->|webhook| External[External Webhook Endpoints]
+    subgraph Client
+        B[User Browser]
+    end
+
+    B -->|Static HTTP/S| Nginx[Frontend Nginx]
+    B -->|REST / GraphQL| API[Gunicorn + Django API]
+
+    Nginx -->|serves| Assets[Built SPA Assets]
+
+    API -->|reads / writes| Postgres[(Postgres DB)]
+    API -->|cache| Redis[(Redis Cache)]
+    API -->|enqueue tasks| RabbitMQ[(RabbitMQ Broker)]
+
+    RabbitMQ -->|consume| Celery[Celery Workers]
+    Celery -->|deliver| External[External Webhook Targets]
+
+    API -->|admin access| Admin[Admin UI]
+
+    classDef infra fill:#f3f4f6,stroke:#111,stroke-width:1px;
+    class Postgres,Redis,RabbitMQ,Celery infra;
 ```
 
 Key files and links
@@ -284,19 +297,7 @@ High-level components:
 - Frontend: React + Vite served by Nginx in container
 - Webhooks: delivery via Celery tasks with retry/backoff and DLQ
 
-Mermaid diagram (project overview):
-
-```mermaid
-flowchart LR
-	Browser -->|REST / GraphQL| Frontend[React Frontend]
-	Frontend --> API[Gunicorn + Django]
-	API -->|reads/writes| Postgres[(Postgres DB)]
-	API -->|cache| Redis[(Redis Cache)]
-	API -->|enqueue| RabbitMQ[(RabbitMQ)]
-	RabbitMQ -->|consume| CeleryWorker[Celery worker]
-	CeleryWorker -->|deliver| WebhookTarget[(External Webhook Consumer)]
-	API -->|admin| Admin[Admin UI]
-```
+<!-- Consolidated architecture diagram above. -->
 
 Updated startup & end-to-end guide
 ---------------------------------
