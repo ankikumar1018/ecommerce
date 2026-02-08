@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 import dj_database_url
 from datetime import timedelta
-from dotenv import load_dotenv
+from dotenv import load_dotenv # noqa: F401
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET')
