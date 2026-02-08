@@ -5,7 +5,7 @@ from datetime import timedelta
 from dotenv import load_dotenv # noqa: F401
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = os.environ.get('DJANGO_SECRET')
+SECRET_KEY = os.environ.get('DJANGO_SECRET', "hsis7s9!@#%&*()_+qwertyuiopasdfghjklzxcvbnm")
 DEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '*').split(',')
 
