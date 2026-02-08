@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+      - name: Run ruff
+        run: |
+          source .venv/bin/activate
+          ruff check .
+      - name: Run tests
+        run: |
+          source .venv/bin/activate
+          pytest -q --maxfail=1 --disable-warnings
+
+  build-images:
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build backend image
+        run: |
+          docker build -t shopsphere-backend:ci .
+      - name: Build frontend image
+        run: |
+          docker build -t shopsphere-frontend:ci ./frontend

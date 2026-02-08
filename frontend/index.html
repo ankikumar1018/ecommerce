@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShopSphere</title>
+    <script>
+      // Global error handler to show errors instead of blank screen during dev
+      (function () {
+        function showError(msg) {
+          try {
+            var existing = document.getElementById('__app_error_overlay')
+            if (existing) existing.remove()
+            var overlay = document.createElement('div')
+            overlay.id = '__app_error_overlay'
+            overlay.style.position = 'fixed'
+            overlay.style.left = 0
+            overlay.style.top = 0
+            overlay.style.right = 0
+            overlay.style.bottom = 0
+            overlay.style.background = 'rgba(0,0,0,0.85)'
+            overlay.style.color = '#fff'
+            overlay.style.padding = '20px'
+            overlay.style.zIndex = 999999
+            overlay.style.overflow = 'auto'
+            overlay.innerText = msg
+            document.addEventListener('DOMContentLoaded', function () {
+              document.body.appendChild(overlay)
+            })
+            if (document.body) document.body.appendChild(overlay)
+          } catch (e) {
+            /* ignore */
+          }
+        }
+
+        window.addEventListener('error', function (ev) {
+          showError('Error: ' + (ev && ev.message) + '\n' + (ev && ev.filename) + ':' + (ev && ev.lineno))
+        })
+        window.addEventListener('unhandledrejection', function (ev) {
+          showError('Unhandled Rejection: ' + (ev && ev.reason && ev.reason.message) || String(ev))
+        })
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

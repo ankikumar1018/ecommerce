@@ -1,0 +1,38 @@
+# Ignore Python and build artifacts
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.egg-info
+dist
+build
+eggs
+parts
+.venv
+venv
+
+# Node
+node_modules
+dist
+build
+
+# Docker
+.git
+.gitignore
+.dockerignore
+.env
+
+# IDEs
+.vscode
+.idea
+
+# macOS
+.DS_Store
+
+# Logs and temp files
+*.log
+tmp
+
+# ruff cache
+.roff_cache/
