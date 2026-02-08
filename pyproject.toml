@@ -3,6 +3,36 @@ DJANGO_SETTINGS_MODULE = "shop_sphere.settings"
 python_files = ["tests.py", "test_*.py", "*_tests.py"]
 addopts = "--maxfail=1 -q --cov=shop"
 
+[project]
+name = "shopsphere"
+version = "0.1.0"
+dependencies = [
+    "Django>=4.2,<5",
+    "djangorestframework",
+    "graphene-django",
+    "psycopg2-binary",
+    "djangorestframework-simplejwt",
+    "dj-database-url",
+    "django-redis",
+    "django-cors-headers",
+    "gunicorn",
+    "whitenoise",
+    "celery",
+    "redis",
+    "requests",
+    "python-dotenv",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-django",
+    "pytest-cov",
+    "factory-boy",
+    "coverage",
+    "ruff",
+]
+
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
 exclude = [

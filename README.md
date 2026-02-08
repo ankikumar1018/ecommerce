@@ -40,7 +40,7 @@ Repository layout (high level)
 - `shop/` — Product, Cart, Order, Webhook models and APIs.
 - `frontend/` — Vite + React app with build/Docker config.
 - `Dockerfile`, `docker-compose.yml` — Container orchestration for development.
-- `requirements.txt` — Python dependencies.
+- Dependencies defined in `pyproject.toml` (install with `uv install`).
 
 Architecture
 ------------
@@ -155,7 +155,7 @@ Running locally (Python venv)
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+uv install
 ```
 
 2. Environment variables
@@ -263,7 +263,7 @@ Quick start:
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+uv install
 python manage.py migrate
 pytest -q
 ```
@@ -375,7 +375,7 @@ Running tests locally (no Docker):
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+uv install
 pytest -q
 ```
 
